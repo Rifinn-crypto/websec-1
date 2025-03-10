@@ -1,71 +1,54 @@
-let previousResults = [];
+let previousCalculation = ""; 
 
-window.calculate = function() {
+function calculate() {
     const num1 = parseFloat(document.getElementById("num1").value);
     const num2 = parseFloat(document.getElementById("num2").value);
     const operation = document.getElementById("operation").value;
-
-    document.getElementById("num1-error").textContent = "";
-    document.getElementById("num2-error").textContent = "";
-    document.getElementById("num1").style.borderColor = "#ccc"; 
-    document.getElementById("num2").style.borderColor = "#ccc"; 
-
-    let isValid = true;
+    let result;
 
     if (isNaN(num1)) {
-        document.getElementById("num1-error").textContent = "Введите корректное число.";
-        document.getElementById("num1").style.borderColor = "red"; 
-        isValid = false;
+        document.getElementById("num1-error").textContent = "Пожалуйста, введите число.";
+        return;
+    } else {
+        document.getElementById("num1-error").textContent = "";
     }
 
     if (isNaN(num2)) {
-        document.getElementById("num2-error").textContent = "Введите корректное число.";
-        document.getElementById("num2").style.borderColor = "red"; 
-        isValid = false;
-    }
-
-    if (!isValid) {
+        document.getElementById("num2-error").textContent = "Пожалуйста, введите число.";
         return;
+    } else {
+        document.getElementById("num2-error").textContent = ""; 
     }
 
-    let result;
-    try {
-        switch (operation) {
-            case "+":
-                result = num1 + num2;
-                break;
-            case "-":
-                result = num1 - num2;
-                break;
-            case "*":
-                result = num1 * num2;
-                break;
-            case "/":
-                if (num2 === 0) {
-                    throw new Error("Деление на ноль!");
-                }
-                result = num1 / num2;
-                break;
-            default:
-                throw new Error("Недопустимая операция.");
-        }
-
-        const resultText = `${num1} ${operation} ${num2} = ${result}`;
-        document.getElementById("result").value = resultText;
-
-        previousResults.unshift(resultText);
-        if (previousResults.length > 5) {
-            previousResults.pop();
-        }
-
-        updatePreviousResultsDisplay();
-
-    } catch (error) {
-        document.getElementById("result").value = "Ошибка: " + error.message;
+    switch (operation) {
+        case "+":
+            result = num1 + num2;
+            break;
+        case "-":
+            result = num1 - num2;
+            break;
+        case "*":
+            result = num1 * num2;
+            break;
+        case "/":
+            if (num2 === 0) {
+                document.querySelector(".result").textContent = `Деление на ноль!`;
+                return;
+            }
+            result = num1 / num2;
+            break;
+        default:
+            result = "Ошибка операции";
     }
-}
 
-function updatePreviousResultsDisplay() {
-    const previousResultsDiv = document.getElementById("previous-results");
-    previousResultsDiv.innerHTML = previousResults.map(res => `<p>${res}</p>`).join("");
+    const currentCalculation = `${num1} ${operation} ${num2} = ${result}`;
+    document.querySelector(".result").textContent = `${num1} ${operation} ${num2} = ${result}`;
+
+    const previousResultsParagraph = document.querySelector(".previous-results");
+    previousResultsParagraph.textContent = `${previousCalculation}`;
+
+    previousCalculation = currentCalculation;
+
+    document.getElementById("num1").value = "";
+    document.getElementById("num2").value = "";
 }
