@@ -1,4 +1,4 @@
-let previousCalculation = ""; 
+let previousCalculation = "";
 
 function calculate() {
     const num1 = parseFloat(document.getElementById("num1").value);
@@ -17,7 +17,7 @@ function calculate() {
         document.getElementById("num2-error").textContent = "Пожалуйста, введите число.";
         return;
     } else {
-        document.getElementById("num2-error").textContent = ""; 
+        document.getElementById("num2-error").textContent = "";
     }
 
     switch (operation) {
@@ -31,7 +31,7 @@ function calculate() {
             result = num1 * num2;
             break;
         case "/":
-            if (num2 === 0) {
+            if (Math.abs(num2) < Number.EPSILON) {
                 document.querySelector(".result").textContent = `Деление на ноль!`;
                 return;
             }
@@ -42,13 +42,10 @@ function calculate() {
     }
 
     const currentCalculation = `${num1} ${operation} ${num2} = ${result}`;
-    document.querySelector(".result").textContent = `${num1} ${operation} ${num2} = ${result}`;
+    document.querySelector(".result").textContent = currentCalculation;
 
     const previousResultsParagraph = document.querySelector(".previous-results");
     previousResultsParagraph.textContent = `${previousCalculation}`;
 
     previousCalculation = currentCalculation;
-
-    document.getElementById("num1").value = "";
-    document.getElementById("num2").value = "";
 }

@@ -6,6 +6,8 @@ body {
     min-height: 100vh;
     background-color: #f0f0f0;
     color: red;
+    margin: 0;
+    padding: 0;
 }
 
 .calculator {
@@ -13,11 +15,14 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px;
+    width: 90%; 
+    max-width: 400px;
+    box-sizing: border-box;
 }
 
 .input-row {
     display: flex;
+    flex-direction: column; 
     gap: 10px;
     margin-bottom: 15px;
 }
@@ -83,10 +88,22 @@ button:hover {
     text-align: left;
     font-size: 1.2em;
     color: red;
+    box-sizing: border-box;
 }
 
 .previous-results {
     color: #999;
     font-size: 0.8em;
     text-align: left;
+}
+
+@media (min-width: 600px) {
+    .input-row {
+        flex-direction: row; 
+        align-items: center; 
+    }
+
+    .input-group {
+        width: 30%; 
+    }
 }
